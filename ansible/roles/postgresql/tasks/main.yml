@@ -1,17 +1,19 @@
 ---
 - name: Create PostgreSQL user for Redmine
-  become: postgres
+  become_user: postgres
   postgresql_user:
     name: redmine
     password: redmine
+  vars:
+    ansible_ssh_pipelining: true
 
 - name: Create PostgreSQL database for Redmine
+  become_user: postgres
   postgresql_db:
     name: redmine
     encoding: UTF-8
-    lc_collate: ja_JP.UTF-8
-    lc_ctype:  ja_JP.UTF-8
-    template: template0
+  vars:
+    ansible_ssh_pipelining: true
 
 - name: Check PostgreSQL dump file
   stat:
@@ -20,17 +22,28 @@
   changed_when: false
   check_mode: no
 
-- name: Import data from dump file (PostgreSQL)
-  become: postgres
-  shell: zcat /tmp/dump.sql.gz | psql redmine
-  when: dump.exists
+# - name: Import data from dump file (PostgreSQL)
+#   become_user: postgres
+#   shell: zcat /tmp/dump.sql.gz | psql redmine
+#   when: dump.exists
+
+- name: Create extension PGroonga
+  become_user: postgres
+  postgresql_ext:
+    db: redmine
+    name: pgroonga
+  vars:
+    ansible_ssh_pipelining: true
 
 - name: Grant usage to redmine
-  become: postgres
+  become_user: postgres
   postgresql_privs:
     database: redmine
     state: present
-    schema: pgroonga
     privs: USAGE
     roles: redmine
+    type: schema
+    objs: pgroonga
     grant_option: yes
+  vars:
+    ansible_ssh_pipelining: true
