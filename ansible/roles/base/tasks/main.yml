@@ -18,6 +18,8 @@
     - vim
     - git
     - ruby
+    - python-psycopg2
+    - python-mysqldb
 
 - name: Install Bundler
   gem:

@@ -24,4 +24,3 @@
     - mariadb-server-mroonga
     - postgresql-9.6-pgroonga
     - groonga-tokenizer-mecab
-    - python-psycopg2
