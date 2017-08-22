@@ -1,4 +1,8 @@
 ---
+- name: Prepare aptitude
+  become: yes
+  shell: apt update && apt install -qq -y aptitude
+
 - name: Upgrade packages
   apt:
     update_cache: yes
