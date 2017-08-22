@@ -7,6 +7,7 @@
   apt:
     name: groonga-keyring
     force: yes
+    allow_unauthenticated: yes
   register: groonga_keyring
 
 - name: Force to update APT cache
