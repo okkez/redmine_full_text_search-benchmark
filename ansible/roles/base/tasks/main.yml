@@ -1,0 +1,21 @@
+---
+- name: Upgrade packages
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    upgrade: safe
+
+- name: Install packages
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - apt-transport-https
+    - gzip
+    - vim
+    - git
+    - ruby
+
+- name: Install Bundler
+  gem:
+    name: bundler
+    user_install: no

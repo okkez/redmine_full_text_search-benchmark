@@ -1,0 +1,57 @@
+---
+- name: Create user for Redmine
+  user:
+    name: "{{ redmine_user }}"
+
+- name: Install pacakges for Redmine
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - gcc
+    - make
+    - pkg-config
+    - curl
+    - libmariadbclient-dev
+    - libmagickwand-6.q16-dev
+    - imagemagick
+    - ruby-dev
+
+- name: Install Redmine
+  become_user: "{{ redmine_user }}"
+  git:
+    repo: "{{ redmine_repo_url }}"
+    dest: "/home/{{ redmine_user }}/redmine"
+    version: "{{ redmine_version }}"
+
+- name: Create database.yml
+  become_user: "{{ redmine_user }}"
+  template:
+    src: database.yml.j2
+    dest: "/home/{{ redmine_user }}/redmine/config/database.yml"
+
+- name: Create configuration.yml
+  become_user: "{{ redmine_user }}"
+  template:
+    src: configuration.yml.j2
+    dest: "/home/{{ redmine_user }}/redmine/config/configuration.yml"
+
+- name: Install plugin
+  git:
+    repo: https://github.com/okkez/redmine_full_text_search.git
+    dest: "/home/{{ redmine_user }}/redmine/plugins/full_text_search"
+
+- name: Install Gem packages
+  shell: bundle install
+  args:
+    chdir: "/home/{{ redmine_user }}/redmine"
+
+- name: Setup Redmine
+  shell: |
+    bin/rake generate_secret_token
+    bin/rake db:migrate RAILS_ENV=production
+    bin/rake redmine:plugins:migrate RAILS_ENV=production
+    bin/rake tmp:cache:clear
+    bin/rake tmp:sessions:clear
+  args:
+    chdir: "/home/{{ redmine_user }}/redmine"
+

@@ -1,0 +1,25 @@
+---
+- name: Install Groonga APT repository
+  apt_repository:
+    repo: "deb https://packages.groonga.org/debian/ stretch main"
+
+- name: Install GPG key for Groonga APT repository
+  apt:
+    name: groonga-keyring
+    force: yes
+  register: groonga_keyring
+
+- name: Force to update APT cache
+  apt:
+    update_cache: yes
+  when: groonga_keyring.changed
+
+- name: Install Mroonga, PGroonga
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - groonga
+    - mariadb-server
+    - mariadb-server-mroonga
+    - postgresql-9.6-pgroonga
+    - groonga-tokenizer-mecab

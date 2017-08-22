@@ -1,0 +1,27 @@
+---
+- name: Create new user for MariaDB
+  mysql_user:
+    name: redmine
+    password: redmine
+    priv: '*.*:ALL'
+    state: present
+
+- name: Create new database for MariaDB
+  mysql_db:
+    name: redmine
+    encoding: utf8
+    state: present
+
+- name: Check MariaDB dump file 
+  stat:
+    path: /tmp/mysqldump.sql.gz
+  register: mysqldump.exists
+  changed_when: false
+  check_mode: no
+
+- name: Import data from dump file (MariaDB)
+  mysql_db:
+    name: redmine
+    state: import
+    target: /tmp/mysqldump.sql.gz
+  when: mysqldump.exists
