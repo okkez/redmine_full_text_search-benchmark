@@ -1,4 +1,7 @@
-<VirtualHost *:80>
+NameVirtualHost {{ public_ip }}
+NameVirtualHost {{ private_ip }}
+
+<VirtualHost {{ public_ip }}:80 {{ private_ip }}:80>
   ServerName {{ public_ip }}
   DocumentRoot /home/{{ redmine_user }}/redmine/public
   <Directory /home/{{ redmine_user }}/redmine/public>
