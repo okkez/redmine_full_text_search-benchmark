@@ -2,6 +2,7 @@
 - name: Prepare aptitude
   become: yes
   shell: apt update && apt install -qq -y aptitude
+  ignore_errors: yes
 
 - name: Upgrade packages
   apt:
