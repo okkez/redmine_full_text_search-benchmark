@@ -18,35 +18,65 @@
     - ruby-dev
 
 - name: Install Redmine
-  become_user: "{{ redmine_user }}"
+  become: yes
   git:
     repo: "{{ redmine_repo_url }}"
     dest: "/home/{{ redmine_user }}/redmine"
     version: "{{ redmine_version }}"
 
+- name: Change Redmine owner
+  become: yes
+  file:
+    path: "/home/{{ redmine_user }}/redmine"
+    owner: "{{ redmine_user }}"
+    group: "{{ redmine_user }}"
+    recurse: yes
+    state: directory
+
 - name: Create database.yml
-  become_user: "{{ redmine_user }}"
+  become: yes
   template:
-    src: database.yml.j2
+    src: "database.yml.{{ database_adapter }}.j2"
     dest: "/home/{{ redmine_user }}/redmine/config/database.yml"
+    owner: "{{ redmine_user }}"
+    group: "{{ redmine_user }}"
+    mode: 0644
 
 - name: Create configuration.yml
-  become_user: "{{ redmine_user }}"
+  become: yes
   template:
     src: configuration.yml.j2
     dest: "/home/{{ redmine_user }}/redmine/config/configuration.yml"
+    owner: "{{ redmine_user }}"
+    group: "{{ redmine_user }}"
+    mode: 0644
 
 - name: Install plugin
+  become: yes
   git:
     repo: https://github.com/okkez/redmine_full_text_search.git
     dest: "/home/{{ redmine_user }}/redmine/plugins/full_text_search"
 
+- name: Change owner of plugins
+  file:
+    path: "/home/{{ redmine_user }}/redmine/plugins"
+    owner: "{{ redmine_user }}"
+    group: "{{ redmine_user }}"
+    recurse: yes
+    state: directory
+
 - name: Install Gem packages
-  shell: bundle install
+  become_user: "{{ redmine_user }}"
+  shell: bundle install --path vendor/bundle
+  vars:
+    ansible_ssh_pipelining: true
   args:
     chdir: "/home/{{ redmine_user }}/redmine"
 
 - name: Setup Redmine
+  become_user: "{{ redmine_user }}"
+  vars:
+    ansible_ssh_pipelining: true
   shell: |
     bin/rake generate_secret_token
     bin/rake db:migrate RAILS_ENV=production
