@@ -1,0 +1,10 @@
+<VirtualHost *:80>
+  DocumentRoot /home/{{ redmine_user }}/redmine/public
+  <Directory /home/{{ redmine_user }}/redmine/public>
+    Require all granted
+    Options -MultiViews
+  </Directory>
+  ErrorLog ${APACHE_LOG_DIR}/redmine_error.log
+  CustomLog ${APACHE_LOG_DIR}/redmine_access.log combined
+  LogLevel warn
+</VirtualHost>
