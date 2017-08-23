@@ -1,4 +1,5 @@
 <VirtualHost *:80>
+  ServerName {{ public_ip }}
   DocumentRoot /home/{{ redmine_user }}/redmine/public
   <Directory /home/{{ redmine_user }}/redmine/public>
     Require all granted
