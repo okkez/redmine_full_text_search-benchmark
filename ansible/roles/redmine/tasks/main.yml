@@ -57,6 +57,7 @@
     repo: https://github.com/okkez/redmine_full_text_search.git
     dest: "/home/{{ redmine_user }}/redmine/plugins/full_text_search"
     version: "{{ full_text_search_version }}"
+  when: use_full_text_search
 
 - name: Change owner of plugins
   file:
