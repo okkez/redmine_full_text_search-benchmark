@@ -1,0 +1,3 @@
+---
+database_adapter: postgresql
+use_full_text_search: yes
