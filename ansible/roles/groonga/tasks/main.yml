@@ -2,6 +2,11 @@
 - name: Install Groonga APT repository
   apt_repository:
     repo: "deb https://packages.groonga.org/debian/ stretch main"
+    update_cache: no
+
+- name: Force to update APT cache
+  become: yes
+  shell: apt -o=Acquire::AllowInsecureRepositories=yes update
 
 - name: Install GPG key for Groonga APT repository
   apt:
@@ -10,9 +15,10 @@
     allow_unauthenticated: yes
   register: groonga_keyring
 
-- name: Force to update APT cache
+- name: Force to update APT cache again
   apt:
     update_cache: yes
+    force: yes
   when: groonga_keyring.changed
 
 - name: Install Mroonga, PGroonga
