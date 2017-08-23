@@ -3,3 +3,4 @@
 /terraform.tfstate.backup
 /*.json
 /ansible/playbook.retry
+/ansible/hosts

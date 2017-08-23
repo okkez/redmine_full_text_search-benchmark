@@ -99,3 +99,24 @@ resource "google_compute_instance" "redmine-pgroonga" {
     preemptible = false
   }
 }
+
+output "ip" {
+  value = {
+    "${google_compute_instance.redmine-mariadb.name}" = [
+      "${google_compute_instance.redmine-mariadb.network_interface.0.access_config.0.assigned_nat_ip}",
+      "${google_compute_instance.redmine-mariadb.network_interface.0.address}",
+    ],
+    "${google_compute_instance.redmine-mroonga.name}" = [
+      "${google_compute_instance.redmine-mroonga.network_interface.0.access_config.0.assigned_nat_ip}",
+      "${google_compute_instance.redmine-mroonga.network_interface.0.address}",
+    ],
+    "${google_compute_instance.redmine-postgresql.name}" = [
+      "${google_compute_instance.redmine-postgresql.network_interface.0.access_config.0.assigned_nat_ip}",
+      "${google_compute_instance.redmine-postgresql.network_interface.0.address}",
+    ],
+    "${google_compute_instance.redmine-pgroonga.name}" = [
+      "${google_compute_instance.redmine-pgroonga.network_interface.0.access_config.0.assigned_nat_ip}",
+      "${google_compute_instance.redmine-pgroonga.network_interface.0.address}",
+    ]
+  }
+}
