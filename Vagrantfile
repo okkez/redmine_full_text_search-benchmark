@@ -5,7 +5,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  name = "redmine.clear-code.com"
+  name = "redmine-local"
   config.vm.define(name) do |node|
     node.vm.box = "debian/stretch64"
     node.vm.network "private_network", ip: "192.168.33.50"
