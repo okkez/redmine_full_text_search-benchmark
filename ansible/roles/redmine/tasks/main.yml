@@ -51,6 +51,15 @@
     group: "{{ redmine_user }}"
     mode: 0644
 
+- name: Create performance_log.rb
+  become: yes
+  template:
+    src: performance_log.rb.j2
+    dest: "/home/{{ redmine_user }}/redmine/config/initializers/performance_log.rb"
+    owner: "{{ redmine_user }}"
+    group: "{{ redmine_user }}"
+    mode: 0644
+
 - name: Install plugin
   become: yes
   git:
