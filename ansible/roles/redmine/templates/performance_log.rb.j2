@@ -1,0 +1,22 @@
+log = Fluent::Logger::FluentLogger.new(nil, host: "{{ fluentd_host }}", port: 24224)
+
+ActiveSupport::Notifications.subscribe("process_action.action_controller") do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+  if event.payload[:controller] == "SearchController" ||
+     (event.payload[:controller] == "IssuesController" && event.payload[:action] == "show")
+    log.post("redmine.#{event.name}", {
+               hostname: Socket.gethostname,
+               duration: event.duration,
+               payload: event.payload
+             })
+  end
+end
+
+ActiveSupport::Notifications.subscribe("sql.active_record") do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+  log.post("redmine.#{event.name}", {
+             hostname: Socket.gethostname,
+             duration: event.duration,
+             payload: event.payload
+           })
+end
