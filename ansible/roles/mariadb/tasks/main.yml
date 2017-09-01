@@ -11,3 +11,9 @@
     name: redmine
     encoding: utf8
     state: present
+
+- name: Import database dump
+  mysql_db:
+    name: redmine
+    state: import
+    target: /tmp/benchmark-mariadb.dump.sql.xz

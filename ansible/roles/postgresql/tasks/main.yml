@@ -17,14 +17,14 @@
 
 - name: Check PostgreSQL dump file
   stat:
-    path: /tmp/dump.sql.gz
+    path: //tmp/benchmark-porgresql.dump.sql.xz
   register: dump.exists
   changed_when: false
   check_mode: no
 
 # - name: Import data from dump file (PostgreSQL)
 #   become_user: postgres
-#   shell: zcat /tmp/dump.sql.gz | psql redmine
+#   shell: pixz -dc /tmp/benchmark-porgresql.dump.sql.xz | psql redmine
 #   when: dump.exists
 
 - name: Create extension PGroonga
