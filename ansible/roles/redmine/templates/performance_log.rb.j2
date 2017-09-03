@@ -1,22 +1,28 @@
 log = Fluent::Logger::FluentLogger.new(nil, host: "{{ fluentd_host }}", port: 24224)
 
+# https://railsguides.jp/active_support_instrumentation.html#process-action-action-controller
 ActiveSupport::Notifications.subscribe("process_action.action_controller") do |*args|
   event = ActiveSupport::Notifications::Event.new(*args)
   if event.payload[:controller] == "SearchController" ||
      (event.payload[:controller] == "IssuesController" && event.payload[:action] == "show")
-    log.post("redmine.#{event.name}", {
-               hostname: Socket.gethostname,
-               duration: event.duration,
-               payload: event.payload
-             })
+    data = {
+      hostname: Socket.gethostname,
+      duration: event.duration
+    }
+    log.post("redmine.#{event.name}", data.merge(event.payload))
   end
 end
 
+# https://railsguides.jp/active_support_instrumentation.html#sql-active-record
 ActiveSupport::Notifications.subscribe("sql.active_record") do |*args|
   event = ActiveSupport::Notifications::Event.new(*args)
-  log.post("redmine.#{event.name}", {
-             hostname: Socket.gethostname,
-             duration: event.duration,
-             payload: event.payload
-           })
+  data = {
+    hostname: Socket.gethostname,
+    duration: event.duration
+  }
+  data = data.merge(sql: event.payload[:sql],
+                    name: event.payload[:name],
+                    connection_id: event.payload[:connection_id],
+                    binds: event.payload[:binds].inspect)
+  log.post("redmine.#{event.name}", data)
 end
