@@ -17,6 +17,7 @@
     - apt-transport-https
     - build-essential
     - gzip
+    - pxz
     - vim
     - git
     - ruby
