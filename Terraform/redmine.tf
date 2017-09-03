@@ -100,6 +100,30 @@ resource "google_compute_instance" "redmine-pgroonga" {
   }
 }
 
+resource "google_compute_instance" "fluentd" {
+  name = "fluentd"
+  machine_type = "n1-standard-2"
+  zone = "asia-northeast1-a"
+
+  boot_disk {
+    initialize_params {
+      image = "ubuntu-os-cloud/ubuntu-1604-lts"
+      type = "pd-standard"
+      size = 10
+    }
+  }
+
+  network_interface = {
+    network = "default"
+    access_config {
+    }
+  }
+
+  scheduling {
+    preemptible = false
+  }
+}
+
 output "ip" {
   value = {
     "${google_compute_instance.redmine-mariadb.name}" = [
@@ -117,6 +141,10 @@ output "ip" {
     "${google_compute_instance.redmine-pgroonga.name}" = [
       "${google_compute_instance.redmine-pgroonga.network_interface.0.access_config.0.assigned_nat_ip}",
       "${google_compute_instance.redmine-pgroonga.network_interface.0.address}",
+    ],
+    "${google_compute_instance.fluentd.name}" = [
+      "${google_compute_instance.fluentd.network_interface.0.access_config.0.assigned_nat_ip}",
+      "${google_compute_instance.fluentd.network_interface.0.address}",
     ]
   }
 }
