@@ -12,8 +12,15 @@
     encoding: utf8
     state: present
 
-- name: Import database dump
-  mysql_db:
-    name: redmine
-    state: import
-    target: /tmp/benchmark-mariadb.dump.sql.xz
+- name: Copy MariaDB dump file
+  copy:
+    src: benchmark-mariadb.dump.sql.xz
+    dest: /tmp/benchmark-mariadb.dump.sql.xz
+
+- name: Import MariaDB dump
+  become: yes
+  shell: pxz -dc /tmp/benchmark-mariadb.dump.sql.xz | mysql redmine
+  # mysql_db:
+  #   name: redmine
+  #   state: import
+  #   target: /tmp/benchmark-mariadb.dump.sql.xz

@@ -15,17 +15,16 @@
   vars:
     ansible_ssh_pipelining: true
 
-- name: Check PostgreSQL dump file
-  stat:
-    path: //tmp/benchmark-porgresql.dump.sql.xz
-  register: dump.exists
-  changed_when: false
-  check_mode: no
+- name: Copy PostgreSQL dump file
+  copy:
+    src: benchmark-postgresql.dump.sql.xz
+    dest: /tmp/benchmark-postgresql.dump.sql.xz
 
-# - name: Import data from dump file (PostgreSQL)
-#   become_user: postgres
-#   shell: pixz -dc /tmp/benchmark-porgresql.dump.sql.xz | psql redmine
-#   when: dump.exists
+- name: Import PostgreSQL dump
+  become_user: postgres
+  shell: pxz -dc /tmp/benchmark-porgresql.dump.sql.xz | psql redmine
+  vars:
+    ansible_ssh_pipelining: true
 
 - name: Create extension PGroonga
   become_user: postgres
