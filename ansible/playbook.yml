@@ -14,3 +14,9 @@
     - mariadb
     - redmine
     - httpd
+
+- hosts: fluentd
+  become: yes
+  roles:
+    - base
+    - fluentd

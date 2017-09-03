@@ -1,6 +1,0 @@
----
-- hosts: servers
-  become: yes
-  roles:
-    - base
-    - fluentd

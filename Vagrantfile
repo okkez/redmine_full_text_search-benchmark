@@ -29,9 +29,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       virtual_box.memory = 2048
     end
     node.vm.provision :ansible do |ansible|
-      ansible.playbook = "ansible/playbook-fluentd.yml"
+      ansible.playbook = "ansible/playbook.yml"
       ansible.groups = {
-        "servers" => [name],
+        "fluentd" => [name],
       }
       ansible.host_key_checking = false
     end
