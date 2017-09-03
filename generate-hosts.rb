@@ -10,4 +10,10 @@ File.open("ansible/hosts", "w+") do |file|
     next unless /redmine/.match?(name)
     file.puts("#{name} ansible_host=#{public} public_ip=#{public} private_ip=#{private}")
   end
+  file.puts
+  file.puts("[fluentd]")
+  ip["value"].each do |name, (public, private)|
+    next unless /fluentd/.match?(name)
+    file.puts("#{name} ansible_host=#{public} public_ip=#{public} private_ip=#{private}")
+  end
 end
