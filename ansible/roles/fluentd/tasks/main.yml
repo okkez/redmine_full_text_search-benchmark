@@ -1,0 +1,62 @@
+---
+- name: Install PostgreSQL
+  become: yes
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - postgresql
+    - postgresql-client
+    - postgresql-server-dev-all
+
+- name: Create PostgreSQL user for Fluentd
+  become_user: postgres
+  postgresql_user:
+    name: fluentd
+    password: fluentd
+  vars:
+    ansible_ssh_pipelining: true
+
+- name: Create PostgreSQL database for Fluentd
+  become_user: postgres
+  postgresql_db:
+    name: redmine_performance_log
+    encoding: UTF-8
+  vars:
+    ansible_ssh_pipelining: true
+
+- name: Copy schema.sql
+  copy:
+    src: schema.sql
+    dest: /tmp/schema.sql
+
+- name: Import schema
+  become_user: postgres
+  shell: cat /tmp/schema.sql | psql redmine_performance_log
+  vars:
+    ansible_ssh_pipelining: true
+
+- name: Install td-agent
+  become: yes
+  shell: curl -L https://toolbelt.treasuredata.com/sh/install-ubuntu-xenial-td-agent3.sh  | sh
+
+- name: Install fluent plugins
+  become: yes
+  gem:
+    executable: /usr/sbin/td-agent-gem
+    name: "{{ item }}"
+    state: present
+    user_install: no
+  with_items:
+    - fluent-plugin-sql
+
+- name: Create td-agent.conf
+  become: yes
+  template:
+    src: td-agent.conf.j2
+    dest: /etc/td-agent/td-agent.conf
+
+- name: Enable td-agent
+  service:
+    name: td-agent
+    enabled: yes
+    state: restarted

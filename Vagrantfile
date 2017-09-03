@@ -20,4 +20,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.host_key_checking = false
     end
   end
+
+  name = "fluentd"
+  config.vm.define(name) do |node|
+    node.vm.box = "ubuntu/xenial64"
+    node.vm.network "private_network", ip: "192.168.33.51"
+    node.vm.provider :virtualbox do |virtual_box|
+      virtual_box.memory = 2048
+    end
+    node.vm.provision :ansible do |ansible|
+      ansible.playbook = "ansible/playbook-fluentd.yml"
+      ansible.groups = {
+        "servers" => [name],
+      }
+      ansible.host_key_checking = false
+    end
+  end
 end

@@ -1,0 +1,25 @@
+<source>
+  @type forward
+  port 24224
+  bind 0.0.0.0
+</source>
+
+<match redmine.**>
+  @type sql
+  database redmine_performance_log
+  adapter postgresql
+  hostname localhost
+  port 5432
+  username fluentd
+  password fluentd
+
+  <table redmine.process_action.action_controller>
+    table action_controller_log
+    column_mapping hostname:hostname,duration:duration,controller:controller,action:action,params:params,headers:headers,format:format,method:method,path:path,status:status,view_runtime:view_runtime,db_runtime:db_runtime
+  </table>
+
+  <table redmine.sql.active_record>
+    table active_record_log
+    column_mapping hostname:hostname,duration:duration,sql:sql,name:name,connection_id:connection_id,binds:binds
+  </table>
+</match>
