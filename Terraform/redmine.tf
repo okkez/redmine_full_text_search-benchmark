@@ -11,7 +11,7 @@ resource "google_compute_instance" "redmine-mariadb" {
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-8"
+      image = "debian-cloud/debian-9"
       type = "pd-standard"
       size = 10
     }
@@ -35,7 +35,7 @@ resource "google_compute_instance" "redmine-mroonga" {
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-8"
+      image = "debian-cloud/debian-9"
       type = "pd-standard"
       size = 10
     }
@@ -59,7 +59,7 @@ resource "google_compute_instance" "redmine-postgresql" {
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-8"
+      image = "debian-cloud/debian-9"
       type = "pd-standard"
       size = 10
     }
@@ -83,7 +83,7 @@ resource "google_compute_instance" "redmine-pgroonga" {
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-8"
+      image = "debian-cloud/debian-9"
       type = "pd-standard"
       size = 10
     }
