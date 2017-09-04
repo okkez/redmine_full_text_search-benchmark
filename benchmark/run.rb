@@ -44,7 +44,7 @@ def main(argv)
   agent.user_agent_alias = "Linux Firefox"
   agent.get(login_url(host)) do |page|
     # username, password
-    form = page.forms.first
+    form = page.forms_with(action: "/login").first
     form.username = username
     form.password = password
     form.submit
