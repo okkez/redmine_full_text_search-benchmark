@@ -51,6 +51,14 @@
     group: "{{ redmine_user }}"
     mode: 0644
 
+- name: Add Gemfile.local
+  copy:
+    src: Gemfile.local
+    dest: "/home/{{ redmine_user }}/redmine/Gemfile.local"
+    owner: "{{ redmine_user }}"
+    group: "{{ redmine_user }}"
+    mode: 0644
+
 - name: Create performance_log.rb
   become: yes
   template:
