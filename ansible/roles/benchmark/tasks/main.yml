@@ -5,3 +5,7 @@
     dest: /tmp/redmine_full_text_search-benchmark
     depth: 1
     force: yes
+
+- name: Bundle install
+  shell: bundle install --path vendor/bundle
+  chdir: /tmp/redmine_full_text_search-benchmark/benchmark
