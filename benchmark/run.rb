@@ -55,6 +55,7 @@ def main(argv)
       query = line.chomp
       _search_result = agent.get(search_url(host, query))
       sleep(0.5)
+      _search_result = agent.get(search_url(host, query))
     end
   end
 end
