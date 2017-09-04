@@ -25,3 +25,9 @@ create table if not exists active_record_log (
   connection_id varchar(255),
   binds text
 );
+
+create index action_controller_log_hostname on action_controller_log using btree (hostname);
+create index action_controller_log_controller on action_controller_log using btree (controller);
+create index active_record_log_hostname on active_record_log using btree (hostname);
+create index active_record_log_sql on active_record_log using btree ("sql");
+
