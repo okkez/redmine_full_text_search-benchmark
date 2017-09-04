@@ -18,5 +18,5 @@ File.open("ansible/hosts", "w+") do |file|
 
   file.puts
   file.puts("[all:vars]")
-  file.puts("fluentd_host=#{fluentd_host_private}")
+  file.puts("fluentd_host=fluentd")
 end
