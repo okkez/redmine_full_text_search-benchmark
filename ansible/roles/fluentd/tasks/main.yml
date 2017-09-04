@@ -21,6 +21,7 @@
   postgresql_db:
     name: redmine_performance_log
     encoding: UTF-8
+    owner: fluentd
   vars:
     ansible_ssh_pipelining: true
 
