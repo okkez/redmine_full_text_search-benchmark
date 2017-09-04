@@ -11,7 +11,7 @@ File.open("ansible/hosts", "w+") do |file|
     file.puts("#{name} ansible_host=#{public} public_ip=#{public} private_ip=#{private}")
   end
 
-  fluentd_host_public, fluentd_host_private = ip.dig["value"]["fluentd"]
+  fluentd_host_public, fluentd_host_private = ip.dig("value", "fluentd")
   file.puts
   file.puts("[log]")
   file.puts("#{name} ansible_host=#{fluentd_host_public} public_ip=#{fluentd_host_public} private_ip=#{fluentd_host_private}")
