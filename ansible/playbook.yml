@@ -15,7 +15,7 @@
     - redmine
     - httpd
 
-- hosts: fluentd
+- hosts: log
   become: yes
   roles:
     - base

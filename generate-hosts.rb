@@ -11,7 +11,7 @@ File.open("ansible/hosts", "w+") do |file|
     file.puts("#{name} ansible_host=#{public} public_ip=#{public} private_ip=#{private}")
   end
   file.puts
-  file.puts("[fluentd]")
+  file.puts("[log]")
   ip["value"].each do |name, (public, private)|
     next unless /fluentd/.match?(name)
     file.puts("#{name} ansible_host=#{public} public_ip=#{public} private_ip=#{private}")
