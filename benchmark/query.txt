@@ -1,0 +1,15 @@
+segv
+segv make
+cgi リーク
+メモリーリーク
+メモリリーク
+# とてもたくさんヒットする
+ruby
+# groonga-dev 全件ヒットするはず
+groonga
+# ヒット件数1桁
+pgrooga score
+mroonga score
+勉強会 会議
+発表者 募集
+ライトニングトーク カンファレンス 開催
