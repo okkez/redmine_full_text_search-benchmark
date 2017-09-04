@@ -31,3 +31,5 @@ create index action_controller_log_controller on action_controller_log using btr
 create index active_record_log_hostname on active_record_log using btree (hostname);
 create index active_record_log_sql on active_record_log using btree ("sql");
 
+alter table action_controller_log owner to fluentd;
+alter table active_record_log owner to fluentd;
