@@ -21,6 +21,7 @@
     - vim
     - git
     - ruby
+    - ruby-dev
     - python-psycopg2
     - python-mysqldb
 

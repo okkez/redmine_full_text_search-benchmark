@@ -15,7 +15,6 @@
     - postgresql-server-dev-all
     - libmagickwand-6.q16-dev
     - imagemagick
-    - ruby-dev
 
 - name: Install Redmine
   become: yes
