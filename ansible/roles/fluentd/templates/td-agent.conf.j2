@@ -13,6 +13,11 @@
   username fluentd
   password fluentd
 
+  <table>
+    table action_controller_log
+    column_mapping hostname:hostname
+  </table>
+
   <table redmine.process_action.action_controller>
     table action_controller_log
     column_mapping hostname:hostname,duration:duration,controller:controller,action:action,params:params,headers:headers,format:format,method:method,path:path,status:status,view_runtime:view_runtime,db_runtime:db_runtime
