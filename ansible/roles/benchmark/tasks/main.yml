@@ -1,11 +1,14 @@
 ---
 - name: Git clone benchmark scripts
+  become: no
   git:
     repo: https://github.com/okkez/redmine_full_text_search-benchmark.git
-    dest: /tmp/redmine_full_text_search-benchmark
+    dest: ~/redmine_full_text_search-benchmark
     depth: 1
     force: yes
 
 - name: Bundle install
+  become: no
   shell: bundle install --path vendor/bundle
-  chdir: /tmp/redmine_full_text_search-benchmark/benchmark
+  args:
+    chdir: ~/redmine_full_text_search-benchmark/benchmark
