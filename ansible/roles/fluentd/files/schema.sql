@@ -22,6 +22,6 @@ create table if not exists active_record_log (
   duration real,
   "sql" text,
   "name" varchar(255),
-  connection_id ,
+  connection_id varchar(255),
   binds text
 );
