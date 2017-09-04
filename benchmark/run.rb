@@ -50,7 +50,7 @@ def main(argv)
     form.submit
 
     path.readlines.each do |line|
-      next if /\A#/.match?(line)
+      next if /\A#/ =~ line
       next if line.strip.empty?
       query = line.chomp
       _search_result = agent.get(search_url(host, query))
