@@ -1,6 +1,8 @@
 /.terraform/
+/.vagrant/
 /terraform.tfstate
 /terraform.tfstate.backup
 /*.json
 /ansible/playbook.retry
 /ansible/hosts
+/ansible/ansible.cfg
