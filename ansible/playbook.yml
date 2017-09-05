@@ -5,7 +5,6 @@
     redmine_user: redmine
     redmine_version: 3.4.2
     redmine_repo_url: https://github.com/redmine/redmine
-    database_adapter: postgresql
     full_text_search_version: v0.6.0
   roles:
     - base
