@@ -24,6 +24,7 @@
 - name: Import PostgreSQL dump
   become_user: postgres
   shell: pxz -dc /tmp/benchmark-postgresql.dump.sql.xz | psql redmine
+  register: psql_result
   vars:
     ansible_ssh_pipelining: true
 
