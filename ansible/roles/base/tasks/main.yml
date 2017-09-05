@@ -29,3 +29,10 @@
   gem:
     name: bundler
     user_install: no
+
+- name: Add locale ja_JP.UTF-8
+  become: yes
+  shell: |
+    sed -i -e 's/^# ja_JP\.UTF-8/ja_JP.UTF-8/' /etc/locale.gen
+    locale-gen
+    update-locale LANG=ja_JP.UTF-8
