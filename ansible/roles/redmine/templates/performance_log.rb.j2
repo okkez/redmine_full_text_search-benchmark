@@ -3,13 +3,22 @@ log = Fluent::Logger::FluentLogger.new(nil, host: "{{ fluentd_host }}", port: 24
 # https://railsguides.jp/active_support_instrumentation.html#process-action-action-controller
 ActiveSupport::Notifications.subscribe("process_action.action_controller") do |*args|
   event = ActiveSupport::Notifications::Event.new(*args)
-  if event.payload[:controller] == "SearchController" ||
-     (event.payload[:controller] == "IssuesController" && event.payload[:action] == "show")
+  case event.payload[:controller]
+  when "SearchController"
     data = {
       hostname: Socket.gethostname,
-      duration: event.duration
+      duration: event.duration,
+      query: event.payload["params"]["q"]
     }
     log.post("redmine.#{event.name}", data.merge(event.payload))
+  when "IssuesController"
+    if event.payload[:action] == "show"
+      data = {
+        hostname: Socket.gethostname,
+        duration: event.duration,
+      }
+      log.post("redmine.#{event.name}", data.merge(event.payload))
+    end
   end
 end
 

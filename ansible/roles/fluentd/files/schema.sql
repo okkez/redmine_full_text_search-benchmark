@@ -6,6 +6,7 @@ create table if not exists action_controller_log (
   duration real,
   controller varchar(255),
   "action" varchar(255),
+  query text,
   params text,
   headers text,
   format varchar(255),
@@ -28,6 +29,7 @@ create table if not exists active_record_log (
 
 create index action_controller_log_hostname on action_controller_log using btree (hostname);
 create index action_controller_log_controller on action_controller_log using btree (controller);
+create index action_controller_log_query on action_controller_log using btree (query);
 create index active_record_log_hostname on active_record_log using btree (hostname);
 create index active_record_log_sql on active_record_log using btree ("sql");
 
