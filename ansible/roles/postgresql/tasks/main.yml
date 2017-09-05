@@ -34,6 +34,7 @@
     name: pgroonga
   vars:
     ansible_ssh_pipelining: true
+  when: use_full_text_search
 
 - name: Grant usage to redmine
   become_user: postgres
@@ -47,3 +48,4 @@
     grant_option: yes
   vars:
     ansible_ssh_pipelining: true
+  when: use_full_text_search
