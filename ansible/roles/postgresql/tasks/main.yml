@@ -12,6 +12,7 @@
   postgresql_db:
     name: redmine
     encoding: UTF-8
+    owner: redmine
   vars:
     ansible_ssh_pipelining: true
 
