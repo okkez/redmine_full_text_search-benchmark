@@ -104,4 +104,12 @@
     bin/rails runner -e production "u=User.find_by_login('admin');u.update_attribute(:password, 'admin');u.update_attribute(:must_change_passwd, false)"
   args:
     chdir: "/home/{{ redmine_user }}/redmine"
+  register: redmine_setup_result
 
+- name: Setup Redmine (stdout)
+  debug:
+    var: redmine_setup_result.stdout_lines
+
+- name: Setup Redmine (stderr)
+  debug:
+    var: redmine_setup_result.stderr_lines
