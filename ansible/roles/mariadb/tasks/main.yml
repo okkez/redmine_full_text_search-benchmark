@@ -20,7 +20,16 @@
 - name: Import MariaDB dump
   become: yes
   shell: pxz -dc /tmp/benchmark-mariadb.dump.sql.xz | mysql redmine
+  register: mysql_result
   # mysql_db:
   #   name: redmine
   #   state: import
   #   target: /tmp/benchmark-mariadb.dump.sql.xz
+
+- name: Import MariaDB dump (stdout)
+  debug:
+    var: mysql_result.stdout_lines
+
+- name: Import MariaDB dump (stderr)
+  debug:
+    var: mysql_result.stderr_lines
