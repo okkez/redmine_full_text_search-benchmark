@@ -28,6 +28,14 @@
   vars:
     ansible_ssh_pipelining: true
 
+- name: Import PostgreSQL dump (stdout)
+  debug:
+    var: psql_result.stdout_lines
+
+- name: Import PostgreSQL dump (stderr)
+  debug:
+    var: psql_result.stderr_lines
+
 - name: Create extension PGroonga
   become_user: postgres
   postgresql_ext:
