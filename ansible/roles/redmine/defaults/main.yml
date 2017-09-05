@@ -1,2 +1,6 @@
 ---
+redmine_user: redmine
+redmine_version: 3.4.2
+redmine_repo_url: https://github.com/redmine/redmine
+full_text_search_version: v0.6.2
 fluentd_host: localhost
