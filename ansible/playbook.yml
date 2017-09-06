@@ -4,8 +4,8 @@
   roles:
     - base
     - groonga
-    - postgresql
-    - mariadb
+    - { role: postgresql, when: database_adapter == "postgresql" }
+    - { role: mariadb, when: database_adapter == "mysql2" }
     - redmine
     - httpd
 
