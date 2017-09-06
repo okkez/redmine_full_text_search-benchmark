@@ -23,7 +23,7 @@
 
 - name: Import PostgreSQL dump
   become_user: postgres
-  shell: pxz -dc /tmp/benchmark-porgresql.dump.sql.xz | psql redmine
+  shell: pxz -dc /tmp/benchmark-postgresql.dump.sql.xz | psql redmine
   vars:
     ansible_ssh_pipelining: true
 
