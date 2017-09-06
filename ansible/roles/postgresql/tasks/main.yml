@@ -7,6 +7,14 @@
   vars:
     ansible_ssh_pipelining: true
 
+- name: Drop PostgreSQL database for Redmine
+  become_user: postgres
+  postgresql_db:
+    name: redmine
+    state: absent
+  vars:
+    ansible_ssh_pipelining: true
+
 - name: Create PostgreSQL database for Redmine
   become_user: postgres
   postgresql_db:

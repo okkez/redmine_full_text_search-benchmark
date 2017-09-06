@@ -6,7 +6,13 @@
     priv: '*.*:ALL'
     state: present
 
-- name: Create new database for MariaDB
+- name: Drop MariaDB database for Redmine
+  mysql_db:
+    name: redmine
+    encoding: utf8
+    state: absent
+
+- name: Create MariaDB database for Redmine
   mysql_db:
     name: redmine
     encoding: utf8
