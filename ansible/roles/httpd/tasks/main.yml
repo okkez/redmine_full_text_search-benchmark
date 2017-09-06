@@ -4,49 +4,8 @@
     name: "{{ item }}"
   with_items:
     - apache2
-    - apache2-dev
-    - libapr1-dev
-    - libaprutil1-dev
-    - libcurl4-openssl-dev
-    - libssl-dev
-
-- name: Install passenger
-  gem:
-    name: passenger
-    user_install: no
-
-- name: passenger module path
-  shell: |
-    passenger-install-apache2-module --snippet | head -n 1 | cut -d ' ' -f 3
-  register: passenger_module_path
-  ignore_errors: yes
-
-- name: Check passenger module
-  stat:
-    path: "{{ passenger_module_path.stdout }}"
-  register: passenger_module
-
-- name: Build passenger module
-  become: yes
-  shell: |
-    passenger-install-apache2-module --auto --languages ruby
-  when: not passenger_module.stat.exists
-  
-- name: Create passenger.load
-  become: yes
-  shell: |
-    passenger-install-apache2-module --snippet | head -n 1 > /etc/apache2/mods-available/passenger.load
-  args:
-    creates: /etc/apache2/mods-available/passenger.load
-
-- name: Create passenger.conf
-  become: yes
-  shell: |
-    passenger-install-apache2-module --snippet | tail -n +2 > /etc/apache2/mods-available/passenger.conf
-    sed -i -e "/^<\/IfModule>$/i PassengerBufferResponse on" /etc/apache2/mods-available/passenger.conf
-    sed -i -e "/^<\/IfModule>$/i PassengerMinInstances 1" /etc/apache2/mods-available/passenger.conf
-  args:
-    creates: /etc/apache2/mods-available/passenger.conf
+    - passenger
+    - libapache2-mod-passenger
 
 - name: Create /etc/apache2/sites-available/redmine.conf
   template:
