@@ -46,6 +46,10 @@ ssh_args = -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=
 ### Provision
 
 Generate inventory file for ansible and run ansible-playbook command.
+Prepare DB dump files before run following commands.
+
+* `ansible/roles/mariadb/files/benchmark-mariadb.dump.sql.xz`
+* `ansible/roles/postgresql/files/benchmark-postgresql.dump.sql.xz`
 
 ```
 $ ./generate-hosts.rb
